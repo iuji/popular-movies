@@ -80,7 +80,7 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewAdapter.Movi
         ImageView listItemImageView;
         CardView cardView;
 
-        public MovieViewHolder(View itemView) {
+        MovieViewHolder(View itemView) {
             super(itemView);
 
             listItemTitleView = itemView.findViewById(R.id.tv_movie_title);

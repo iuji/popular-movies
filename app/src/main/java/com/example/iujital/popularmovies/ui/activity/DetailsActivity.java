@@ -1,26 +1,14 @@
 package com.example.iujital.popularmovies.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.iujital.popularmovies.R;
 import com.example.iujital.popularmovies.utils.Constants;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DetailsActivity extends AppCompatActivity {
 

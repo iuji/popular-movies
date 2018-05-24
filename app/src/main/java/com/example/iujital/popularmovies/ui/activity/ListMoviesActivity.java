@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -17,11 +16,8 @@ import android.widget.TextView;
 import com.example.iujital.popularmovies.R;
 import com.example.iujital.popularmovies.adapter.MovieViewAdapter;
 import com.example.iujital.popularmovies.api.Api;
-import com.example.iujital.popularmovies.model.Movie;
 import com.example.iujital.popularmovies.model.MovieCatalog;
 import com.example.iujital.popularmovies.utils.Constants;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -112,7 +108,7 @@ public class ListMoviesActivity extends AppCompatActivity {
         return true;
     }
 
-    public  boolean checkConnection() {
+    private boolean checkConnection() {
         boolean connected;
         ConnectivityManager conectivtyManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (conectivtyManager.getActiveNetworkInfo() != null

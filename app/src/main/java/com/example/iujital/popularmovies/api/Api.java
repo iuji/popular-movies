@@ -1,10 +1,7 @@
 package com.example.iujital.popularmovies.api;
 
 
-import com.example.iujital.popularmovies.model.Movie;
 import com.example.iujital.popularmovies.model.MovieCatalog;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
