@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="sort_by">Sort By</string>
+    <string name="error_message_connection">No internet connection, please check your connection and try again.</string>
+    <string name="error_message_default">An error has occurred. Please try again.</string>
+    <string name="date">Release Date:</string>
+</resources>
