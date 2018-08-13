@@ -46,6 +46,8 @@ public class ListMoviesActivity extends AppCompatActivity {
     LinearLayout mViewError;
     @BindView(R.id.rv_movies)
     RecyclerView mRecyclerView;
+    @BindView(R.id.view_movies)
+    LinearLayout mViewMovies;
 
     private static final String TAG = ListMoviesActivity.class.getSimpleName();
     private static final int NUM_SPAN = 3;
@@ -191,12 +193,12 @@ public class ListMoviesActivity extends AppCompatActivity {
     }
 
     private void showErrorMessage() {
-        mRecyclerView.setVisibility(View.GONE);
+        mViewMovies.setVisibility(View.GONE);
         mViewError.setVisibility(View.VISIBLE);
     }
 
     private void showListMovieView() {
-        mRecyclerView.setVisibility(View.VISIBLE);
+        mViewMovies.setVisibility(View.VISIBLE);
         mViewError.setVisibility(View.GONE);
     }
 
