@@ -22,7 +22,9 @@ import com.example.iujital.popularmovies.model.Movie;
 import com.example.iujital.popularmovies.model.MovieResponse;
 import com.example.iujital.popularmovies.api.MovieDbService;
 import com.example.iujital.popularmovies.api.Client;
+import com.example.iujital.popularmovies.model.Review;
 import com.example.iujital.popularmovies.model.ReviewResponse;
+import com.example.iujital.popularmovies.model.Trailer;
 import com.example.iujital.popularmovies.model.TrailerResponse;
 import com.example.iujital.popularmovies.utils.AppExecutors;
 import com.example.iujital.popularmovies.utils.Connectivity;
@@ -32,6 +34,7 @@ import com.squareup.picasso.Picasso;
 import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -74,6 +77,8 @@ public class DetailsActivity extends AppCompatActivity {
     private static final String DATE_FORMAT = "dd/MM/yyy";
     // Date formatter
     private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+    private static final String TRAILERS_KEY = "trailers";
+    private static final String REVIEWS_KEY = "reviews";
     private static final String TAG = DetailsActivity.class.getSimpleName();
     private Movie mMovie;
     private TrailerAdapter mTrailerAdapter;
@@ -94,8 +99,27 @@ public class DetailsActivity extends AppCompatActivity {
 
         setupRecyclerView();
         setupViewModel();
-        requestTrailers();
-        requestReviews();
+
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(TRAILERS_KEY)
+                && savedInstanceState.containsKey(REVIEWS_KEY)) {
+            List<Trailer> trailers = Parcels.unwrap(savedInstanceState.getParcelable(TRAILERS_KEY));
+            List<Review> reviews = Parcels.unwrap(savedInstanceState.getParcelable(REVIEWS_KEY));
+            mTrailerAdapter.setTrailerList(trailers);
+            showListTrailerView();
+            mReviewAdapter.setReviewList(reviews);
+            showListReviewView();
+        } else {
+            requestTrailers();
+            requestReviews();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(TRAILERS_KEY, Parcels.wrap(mTrailerAdapter.getmTrailerList()));
+        outState.putParcelable(REVIEWS_KEY, Parcels.wrap(mReviewAdapter.getmReviewList()));
     }
 
     private void setupRecyclerView() {

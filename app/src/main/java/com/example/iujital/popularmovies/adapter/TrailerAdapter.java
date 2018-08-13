@@ -29,6 +29,10 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerV
         notifyDataSetChanged();
     }
 
+    public List<Trailer> getmTrailerList() {
+        return mTrailerList;
+    }
+
     @Override public TrailerAdapter.TrailerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         int layoutIdForList = R.layout.card_item_trailer;

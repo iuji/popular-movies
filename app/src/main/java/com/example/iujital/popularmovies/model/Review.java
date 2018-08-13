@@ -1,5 +1,8 @@
 package com.example.iujital.popularmovies.model;
 
+import org.parceler.Parcel;
+
+@Parcel(Parcel.Serialization.BEAN)
 public class Review {
     private String author;
     private String content;

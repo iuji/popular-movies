@@ -6,6 +6,10 @@
     <string name="error_message_without_favorites">No favorites saved.</string>
     <string name="error_message_without_trailers">This movie has no trailers.</string>
     <string name="error_message_without_reviews">This movie has no reviews.</string>
+    <string name="error_message_without_api_key">Please obtain API Key firstly from themoviedb.org</string>
+    <string name="menu_order_by_popularity">Order by popularity</string>
+    <string name="menu_order_by_top_rated">Order by top rated</string>
+    <string name="menu_order_by_favorites">Order by favorites</string>
     <string name="top_rated_title">Top Rated Movies</string>
     <string name="popular_title">Popular Movies</string>
     <string name="favorite_title">Favorites Movies</string>

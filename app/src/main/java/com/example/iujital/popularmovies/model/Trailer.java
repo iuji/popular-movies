@@ -1,13 +1,14 @@
 package com.example.iujital.popularmovies.model;
 
+import org.parceler.Parcel;
+
+@Parcel(Parcel.Serialization.BEAN)
 public class Trailer {
 
     private String key;
     private String name;
 
-    public Trailer(String key, String name){
-        this.key = key;
-        this.name = name;
+    public Trailer(){
     }
 
     public String getKey(){

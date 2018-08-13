@@ -35,6 +35,10 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewAdapter.Movi
         notifyDataSetChanged();
     }
 
+    public List<Movie> getmMovieList() {
+        return mMovieList;
+    }
+
     @Override public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         int layoutIdForListMovie = R.layout.card_item_movie;

@@ -25,6 +25,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         notifyDataSetChanged();
     }
 
+    public List<Review> getmReviewList() {
+        return mReviewList;
+    }
+
     @Override public ReviewAdapter.ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         int layoutIdForList = R.layout.card_item_review;

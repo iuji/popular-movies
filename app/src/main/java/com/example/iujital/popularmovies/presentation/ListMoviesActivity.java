@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +26,8 @@ import com.example.iujital.popularmovies.model.Movie;
 import com.example.iujital.popularmovies.model.MovieResponse;
 import com.example.iujital.popularmovies.utils.Connectivity;
 import com.example.iujital.popularmovies.utils.Constants;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -50,7 +53,8 @@ public class ListMoviesActivity extends AppCompatActivity {
     LinearLayout mViewMovies;
 
     private static final String TAG = ListMoviesActivity.class.getSimpleName();
-    private static final int NUM_SPAN = 3;
+    private static final String MOVIES_KEY = "movies";
+    private static final String TYPE_SEARCH_KEY = "typeSearch";
     private int typeSearch = Constants.POPULAR;
     private MovieViewAdapter mAdapter;
 
@@ -60,17 +64,34 @@ public class ListMoviesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_movies);
         ButterKnife.bind(this);
         setupRecyclerView();
-        validateTypeSearch();
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(MOVIES_KEY)
+                && savedInstanceState.containsKey(TYPE_SEARCH_KEY)) {
+            List<Movie> movies = Parcels.unwrap(savedInstanceState.getParcelable(MOVIES_KEY));
+            String typeSearchTitle = savedInstanceState.getString(TYPE_SEARCH_KEY);
+            mAdapter.setMovieList(movies);
+            mTypeSearch.setText(typeSearchTitle);
+        } else {
+            initView();
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MOVIES_KEY, Parcels.wrap(mAdapter.getmMovieList()));
+        outState.putString(TYPE_SEARCH_KEY, mTypeSearch.getText().toString());
     }
 
     private void setupRecyclerView() {
         mAdapter = new MovieViewAdapter(this);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, NUM_SPAN);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, numberOfColumns());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(layoutManager);
     }
 
-    private void validateTypeSearch() {
+    private void initView() {
         switch (typeSearch) {
             case Constants.POPULAR:
                 createRetrofit(Constants.TYPE_SEARCH_POPULAR);
@@ -93,7 +114,7 @@ public class ListMoviesActivity extends AppCompatActivity {
                     mAdapter.setMovieList(movies);
                     mTypeSearch.setText(R.string.favorite_title);
                     showListMovieView();
-                }else {
+                } else {
                     mErrorMessageDisplay.setText(R.string.error_message_without_favorites);
                     showErrorMessage();
                 }
@@ -103,15 +124,15 @@ public class ListMoviesActivity extends AppCompatActivity {
 
 
     private void createRetrofit(final String typeSearchText) {
-        if(typeSearch == Constants.TOP_RATED){
+        if (typeSearch == Constants.TOP_RATED) {
             mTypeSearch.setText(R.string.top_rated_title);
-        }else if(typeSearch == Constants.POPULAR){
+        } else if (typeSearch == Constants.POPULAR) {
             mTypeSearch.setText(R.string.popular_title);
         }
         startLoading();
         if (Connectivity.isConnected(this)) {
-            if (BuildConfig.api_key.isEmpty()){
-                Toast.makeText(getApplicationContext(), "Please obtain API Key firstly from themoviedb.org", Toast.LENGTH_SHORT).show();
+            if (BuildConfig.api_key.isEmpty()) {
+                Toast.makeText(getApplicationContext(), R.string.error_message_without_api_key, Toast.LENGTH_SHORT).show();
                 endLoading();
                 return;
             }
@@ -152,36 +173,46 @@ public class ListMoviesActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem itemPopular = menu.add("Order by popularity");
+        MenuItem itemPopular = menu.add(R.string.menu_order_by_popularity);
         itemPopular.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 typeSearch = Constants.POPULAR;
-                validateTypeSearch();
+                initView();
                 return false;
             }
         });
 
-        MenuItem itemTopRated = menu.add("Order by top rated");
+        MenuItem itemTopRated = menu.add(R.string.menu_order_by_top_rated);
         itemTopRated.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 typeSearch = Constants.TOP_RATED;
-                validateTypeSearch();
+                initView();
                 return false;
             }
         });
 
-        MenuItem itemFavorites = menu.add("Order by favorites");
+        MenuItem itemFavorites = menu.add(R.string.menu_order_by_favorites);
         itemFavorites.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 typeSearch = Constants.FAVORITES;
-                validateTypeSearch();
+                initView();
                 return false;
             }
         });
         return true;
+    }
+
+    private int numberOfColumns() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int widthDivider = 300;
+        int width = displayMetrics.widthPixels;
+        int nColumns = width / widthDivider;
+        if (nColumns < 2) return 2;
+        return nColumns;
     }
 
     private void startLoading() {
