@@ -1,6 +1,16 @@
 package com.example.iujital.popularmovies.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+import org.parceler.Parcel;
+
+import java.util.Date;
+
+@Parcel(Parcel.Serialization.BEAN)
+@Entity(tableName = "favorite")
 public class Movie {
+    @PrimaryKey
     private int id;
     private String title;
     private String original_language;
@@ -9,7 +19,10 @@ public class Movie {
     private String poster_path;
     private String backdrop_path;
     private String overview;
-    private String release_date;
+    private Date release_date;
+
+    public Movie() {
+    }
 
     public int getId() {
         return id;
@@ -75,11 +88,11 @@ public class Movie {
         this.overview = overview;
     }
 
-    public String getRelease_date() {
+    public Date getRelease_date() {
         return release_date;
     }
 
-    public void setRelease_date(String release_date) {
+    public void setRelease_date(Date release_date) {
         this.release_date = release_date;
     }
 }

@@ -2,6 +2,7 @@ package com.example.iujital.popularmovies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +13,11 @@ import android.widget.TextView;
 
 import com.example.iujital.popularmovies.R;
 import com.example.iujital.popularmovies.model.Movie;
-import com.example.iujital.popularmovies.ui.activity.DetailsActivity;
+import com.example.iujital.popularmovies.presentation.DetailsActivity;
 import com.example.iujital.popularmovies.utils.Constants;
 import com.squareup.picasso.Picasso;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -27,14 +30,14 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewAdapter.Movi
     }
 
 
-    public void setmMovieList(List<Movie> mMovieList) {
+    public void setMovieList(List<Movie> mMovieList) {
         this.mMovieList = mMovieList;
         notifyDataSetChanged();
     }
 
     @Override public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListMovie = R.layout.cardview_item_movie;
+        int layoutIdForListMovie = R.layout.card_item_movie;
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
@@ -47,20 +50,20 @@ public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewAdapter.Movi
     @Override public void onBindViewHolder(MovieViewHolder holder, final int position) {
         holder.listItemTitleView.setText(mMovieList.get(position).getTitle());
         String url = Constants.BASE_URL_IMAGE + mMovieList.get(position).getPoster_path();
-        Picasso.with(mContext).load(url).into(holder.listItemImageView);
+        Picasso.with(mContext).load(url).placeholder(R.drawable.placeholder).into(holder.listItemImageView);
+
+
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, DetailsActivity.class);
+                Movie movie = mMovieList.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("movie", Parcels.wrap(movie));
 
-                // passing data to the details activity
-                intent.putExtra("ORIGINAL_TITLE",mMovieList.get(position).getOriginal_title());
-                intent.putExtra("POSTER",mMovieList.get(position).getPoster_path());
-                intent.putExtra("BACKDROP",mMovieList.get(position).getBackdrop_path());
-                intent.putExtra("OVERVIEW",mMovieList.get(position).getOverview());
-                intent.putExtra("VOTE_AVERAGE",mMovieList.get(position).getVote_average());
-                intent.putExtra("RELEASE_DATE",mMovieList.get(position).getRelease_date());
+                // passing bundle to details activity
+                intent.putExtras(bundle);
 
                 // start the activity
                 mContext.startActivity(intent);

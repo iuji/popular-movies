@@ -1,7 +1,18 @@
 <resources>
-    <string name="app_name">Popular Movies</string>
+    <string name="app_name">Famous Movies</string>
     <string name="sort_by">Sort By</string>
     <string name="error_message_connection">No internet connection, please check your connection and try again.</string>
     <string name="error_message_default">An error has occurred. Please try again.</string>
+    <string name="error_message_without_favorites">No favorites saved.</string>
+    <string name="error_message_without_trailers">This movie has no trailers.</string>
+    <string name="error_message_without_reviews">This movie has no reviews.</string>
+    <string name="top_rated_title">Top Rated Movies</string>
+    <string name="popular_title">Popular Movies</string>
+    <string name="favorite_title">Favorites Movies</string>
     <string name="date">Release Date:</string>
+    <string name="make_favorite">Make favorite</string>
+    <string name="overview">Overview</string>
+    <string name="trailers">Trailers</string>
+    <string name="reviews">Reviews</string>
+    <string name="back">Back</string>
 </resources>
